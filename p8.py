@@ -27,3 +27,9 @@ CI_1 = avg_delay + t_table * sd / math.sqrt(n)
 CI_2 = avg_delay - t_table * sd /math.sqrt(n)
 we = abs(CI_1- mu0)
 be = abs(CI_2- mu0)
+if mu0>=CI_2 and mu0 <= CI_1:
+	if we < e:
+		print("accept")
+	elif we > e or be > e:
+		print("more replication required")
+
