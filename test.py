@@ -3,29 +3,33 @@ import os, sys
 os.system("clear");
 
 
-def probability(n):
-	return (pow(rho, n) * p0);
+def fact(n):
+	val = 1;
+	for i in range(2, n+1):
+		val = val * i;
+	return val;
 
-
-lamda = 8.0
-mu = 9.0#float(input("Enter service rate: "));
-n = 10#int(input("Enter number of people: "));
+lamda = float(10);
+mu = float(6);
+n = int(10);
+c = int(10);
 os.system("clear");
-rho = lamda / mu;
-print rho
-p0 = (1 - rho) / (1 - (pow(rho, n+1)));
-pnq = p0 + (rho*p0);
+rho = lamda / (c * mu);
 
-pn = probability(n);
+p0 = 0;
+for i in range(0, c):
+	val1 = pow(rho, n) / fact(n);
+	val2 = pow(rho, c) / fact(c);
+	val3 = 1 / (1 - (rho / c));
+	p0 = p0 + (val1 + val2 * val3);
 
-ls = rho * (1 + (n*pow(rho,n+1)) - (n+1)*pow(rho,n)) / ((1-rho)*(1-pow(rho, n+1)) );
-lamdaEff = lamda * (1 - pn);
-lq = ls - (lamdaEff / mu)
-ws = ls / lamdaEff;
-wq = ws - (1/mu);
+pn = pow(lamda, n) * p0 / (fact(c) * pow(mu, n) * pow(c, n-c));
+lq = pow(rho, c+1) * p0 / (fact(c-1) * pow(c-rho, 2));
+ls = lq + rho;
+ws = ls / lamda;
+wq = lq / lamda;
 
 print("P (utilization) = " + str(rho));
-print("Effective arrival rate = " + str(lamdaEff));
 print("Probability that 0 people are in the system: " + str(p0));
 print("Probability that " + str(n) + " people are in the queue: " + str(pn));
 print("Expected number of customers in the system: " + str(ls));
